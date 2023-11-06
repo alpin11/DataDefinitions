@@ -59,7 +59,7 @@ class ExportDefinitionController extends AbstractDefinitionController
         $id = (int)$request->get('id');
 
         if ($id) {
-            $definition = $this->repository->find($id);
+            $definition = $this->repository->findByName($id);
 
             if ($definition instanceof ExportDefinitionInterface) {
 
@@ -88,7 +88,7 @@ class ExportDefinitionController extends AbstractDefinitionController
     public function importAction(Request $request): JsonResponse
     {
         $id = (int)$request->get('id');
-        $definition = $this->repository->find($id);
+        $definition = $this->repository->findByName($id);
 
         if ($id && $definition instanceof ExportDefinitionInterface && $request->files->has('Filedata')) {
             $uploadedFile = $request->files->get('Filedata');
@@ -117,7 +117,7 @@ class ExportDefinitionController extends AbstractDefinitionController
     public function duplicateAction(Request $request): JsonResponse
     {
         $id = (int)$request->get('id');
-        $definition = $this->repository->find($id);
+        $definition = $this->repository->findByName($id);
         $name = (string)$request->get('name');
 
         if ($definition instanceof ExportDefinitionInterface && $name) {
@@ -137,7 +137,7 @@ class ExportDefinitionController extends AbstractDefinitionController
     public function getColumnsAction(Request $request): JsonResponse
     {
         $id = $request->get('id');
-        $definition = $this->repository->find($id);
+        $definition = $this->repository->findByName($id);
 
         if (!$definition instanceof ExportDefinitionInterface || !$definition->getClass()) {
             return $this->viewHandler->handle(['success' => false]);

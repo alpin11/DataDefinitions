@@ -38,4 +38,16 @@ abstract class AbstractDefinitionController extends ResourceController
 
         return $this->viewHandler->handle(['data' => $resources, 'success' => true], ['group' => 'Detailed']);
     }
+
+    // FORK FIX -> changed find to findByName
+    protected function findOr404(int|string $id): ResourceInterface
+    {
+        $model = $this->repository->findByName($id);
+
+        if (null === $model || !$model instanceof ResourceInterface) {
+            throw new NotFoundHttpException(sprintf('The "%s" has not been found', $id));
+        }
+
+        return $model;
+    }
 }
